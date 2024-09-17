@@ -1,2 +1,7 @@
-<p>periodic-table works!</p>
-<app-spinner></app-spinner>
+@defer (when isDataLoaded()) {
+  <p>periodic-table works!</p>
+} @placeholder (minimum 1s) {
+  <mat-spinner></mat-spinner>
+} @loading (after 100ms; minimum 1s) {
+  <mat-spinner></mat-spinner>
+}

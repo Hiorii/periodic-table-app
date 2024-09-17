@@ -1,11 +1,12 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { PeriodicElement } from '../models/periodic-element.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
   dataUrl: string = 'data/periodic-data.json';
-  data$ = inject(HttpClient).get<PeriodicElement[]>(this.dataUrl);
+  data$: Observable<PeriodicElement[]> = inject(HttpClient).get<PeriodicElement[]>(this.dataUrl);
 }
