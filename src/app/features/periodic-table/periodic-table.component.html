@@ -1,5 +1,10 @@
 @defer (when isDataLoaded()) {
-  <p>periodic-table works!</p>
+  <app-table
+    [tableTitle]="tableTitleData.title"
+    [tableTitleIcon]="tableTitleData.icon"
+    [columns]="tableColumns"
+    [dataSource]="periodicTableData"
+  ></app-table>
 } @placeholder (minimum 1s) {
   <mat-spinner></mat-spinner>
 } @loading (after 100ms; minimum 1s) {

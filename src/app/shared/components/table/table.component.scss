@@ -1,0 +1,28 @@
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100svh;
+
+  .container {
+    width: 80%;
+
+    table {
+      thead {
+        background: #005cbb;
+
+        th {
+          color: white;
+          font-size: 1rem;
+        }
+      }
+
+      tbody {
+        tr:nth-child(even) {
+          background: #d7e3ff;
+        }
+      }
+    }
+  }
+}

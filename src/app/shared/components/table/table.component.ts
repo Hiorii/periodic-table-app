@@ -1,12 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, computed, input, ViewEncapsulation } from '@angular/core';
+import { MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButton } from '@angular/material/button';
+import { TableColumn } from '../../../core/models/table-column.model';
+import { JsonPipe, TitleCasePipe } from '@angular/common';
+import { TableTitleComponent } from './table-title/table-title.component';
 
 @Component({
   selector: 'app-table',
   standalone: true,
-  imports: [],
+  imports: [MatTableModule, MatIconModule, MatButton, JsonPipe, TitleCasePipe, TableTitleComponent],
   templateUrl: './table.component.html',
-  styleUrl: './table.component.scss'
+  styleUrl: './table.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
-export class TableComponent {
-
+export class TableComponent<T> {
+  tableTitle = input<string>();
+  tableTitleIcon = input<string>();
+  dataSource = input.required<T[]>();
+  columns = input.required<TableColumn[]>();
+  columnsToDisplay = computed(() => this.columns().map((column) => column.name));
+  defaultTitle: string = 'Table';
 }
