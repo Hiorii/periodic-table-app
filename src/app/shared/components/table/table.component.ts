@@ -16,7 +16,7 @@ import { TableTitleComponent } from './table-title/table-title.component';
 })
 export class TableComponent<T> {
   tableTitle = input<string>();
-  tableTitleIcon = input<string>();
+  tableTitleIconName = input<string>();
   dataSource = input.required<T[]>();
   columns = input.required<TableColumn[]>();
   columnsToDisplay = computed(() => this.columns().map((column) => column.name));

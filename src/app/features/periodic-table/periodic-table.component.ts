@@ -25,10 +25,10 @@ export class PeriodicTableComponent implements OnInit {
   private tableService = inject(TableService);
 
   ngOnInit(): void {
-    this.getInitialData();
+    this.getDataAndInitializeTable();
   }
 
-  private getInitialData(): void {
+  private getDataAndInitializeTable(): void {
     this.dataService.data$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((data) => {
       this.periodicTableData = data;
       this.isDataLoaded.set(!!this.periodicTableData.length);

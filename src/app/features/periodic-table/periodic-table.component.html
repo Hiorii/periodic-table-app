@@ -1,12 +1,13 @@
 @defer (when isDataLoaded()) {
   <app-table
     [tableTitle]="tableTitleData.title"
-    [tableTitleIcon]="tableTitleData.icon"
+    [tableTitleIconName]="tableTitleData.icon"
     [columns]="tableColumns"
     [dataSource]="periodicTableData"
+    class="container"
   ></app-table>
 } @placeholder (minimum 1s) {
-  <mat-spinner></mat-spinner>
+  <mat-spinner class="container"></mat-spinner>
 } @loading (after 100ms; minimum 1s) {
-  <mat-spinner></mat-spinner>
+  <mat-spinner class="container"></mat-spinner>
 }
