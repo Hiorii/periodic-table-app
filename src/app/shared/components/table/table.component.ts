@@ -5,11 +5,12 @@ import { MatButton } from '@angular/material/button';
 import { TableColumn } from '../../../core/models/table-column.model';
 import { JsonPipe, TitleCasePipe } from '@angular/common';
 import { TableTitleComponent } from './table-title/table-title.component';
+import { TableNoDataComponent } from './table-no-data/table-no-data.component';
 
 @Component({
   selector: 'app-table',
   standalone: true,
-  imports: [MatTableModule, MatIconModule, MatButton, JsonPipe, TitleCasePipe, TableTitleComponent],
+  imports: [MatTableModule, MatIconModule, MatButton, JsonPipe, TitleCasePipe, TableTitleComponent, TableNoDataComponent],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
   encapsulation: ViewEncapsulation.None

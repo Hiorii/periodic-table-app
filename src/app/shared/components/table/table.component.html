@@ -1,18 +1,21 @@
 <main>
   <app-table-title [title]="tableTitle() || defaultTitle" [icon]="tableTitleIconName()" />
-  @if (dataSource().length) {
-    <table mat-table [dataSource]="dataSource()" class="mat-elevation-z8 tableContainer">
-      @for (column of columnsToDisplay(); track column) {
-        <ng-container matColumnDef="{{ column }}">
-          <th mat-header-cell *matHeaderCellDef class="table-header">{{ column | titlecase }}</th>
-          <td mat-cell *matCellDef="let element">{{ element[column] }}</td>
-        </ng-container>
-      }
+  <table mat-table [dataSource]="dataSource()" class="mat-elevation-z8 tableContainer">
+    @for (column of columnsToDisplay(); track column) {
+      <ng-container matColumnDef="{{ column }}">
+        <th mat-header-cell *matHeaderCellDef class="table-header">{{ column | titlecase }}</th>
+        <td mat-cell *matCellDef="let element">{{ element[column] }}</td>
+      </ng-container>
+    }
 
+    <tr *matNoDataRow>
+      <td [attr.colspan]="columnsToDisplay().length">
+        <app-table-no-data></app-table-no-data>
+      </td>
+    </tr>
+    @if (columnsToDisplay().length) {
       <tr mat-header-row *matHeaderRowDef="columnsToDisplay()"></tr>
-      <tr mat-row *matRowDef="let row; columns: columnsToDisplay()"></tr>
-    </table>
-  } @else {
-    <span class="no-results"> Brak wyników </span>
-  }
+    }
+    <tr mat-row *matRowDef="let row; columns: columnsToDisplay()"></tr>
+  </table>
 </main>

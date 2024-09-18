@@ -31,7 +31,8 @@ export class PeriodicTableComponent implements OnInit {
   private getDataAndInitializeTable(): void {
     this.dataService.data$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((data) => {
       this.periodicTableData = data;
-      this.isDataLoaded.set(!!this.periodicTableData.length);
+      this.periodicTableData = [];
+      this.isDataLoaded.set(true);
       if (this.isDataLoaded()) {
         this.initializeTableTitle();
         this.initializeTableColumns();

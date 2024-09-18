@@ -1,0 +1,10 @@
+@import "mixins";
+
+.container {
+  @include flex(center, center, row);
+  padding: 1rem;
+
+  mat-icon {
+    padding-right: .5rem;
+  }
+}
