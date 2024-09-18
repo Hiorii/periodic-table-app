@@ -1,0 +1,9 @@
+<form [formGroup]="filterForm()">
+  <mat-form-field>
+    <mat-label>Search</mat-label>
+    <input matInput placeholder="Ex. boron" formControlName="filter" />
+    @if (isSearching()) {
+      <mat-spinner matSuffix diameter="20"></mat-spinner>
+    }
+  </mat-form-field>
+</form>

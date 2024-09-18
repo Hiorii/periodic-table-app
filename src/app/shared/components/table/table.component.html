@@ -1,6 +1,7 @@
 <main>
   <app-table-title [title]="tableTitle() || defaultTitle" [icon]="tableTitleIconName()" />
-  <table mat-table [dataSource]="dataSource()" class="mat-elevation-z8 tableContainer">
+  <app-filter [dataSource]="dataSource()" (filteredData)="filterData($event)"></app-filter>
+  <table mat-table [dataSource]="displayedDataSource()" class="mat-elevation-z8 tableContainer">
     @for (column of columnsDataDisplay(); track column) {
       <ng-container matColumnDef="{{ column.name }}">
         <th mat-header-cell *matHeaderCellDef class="table-header" [ngStyle]="{ width: column.width }">
