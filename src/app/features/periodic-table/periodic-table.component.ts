@@ -54,6 +54,27 @@ export class PeriodicTableComponent implements OnInit {
 
   private initializeTableColumns(): void {
     this.tableColumns = this.tableService.initializeTableColumns(this.periodicTableData(), this.tableActions);
+    this.tableColumns = this.tableColumns.map((col) => ({
+      ...col,
+      width: this.getColumnWidth(col.name)
+    }));
+  }
+
+  private getColumnWidth(columnName: string): string {
+    switch (columnName) {
+      case 'name':
+        return '35%';
+      case 'symbol':
+        return '10%';
+      case 'weight':
+        return '35%';
+      case 'position':
+        return '10%';
+      case 'actions':
+        return '10%';
+      default:
+        return 'auto';
+    }
   }
 
   private initializeTableActions(): void {
