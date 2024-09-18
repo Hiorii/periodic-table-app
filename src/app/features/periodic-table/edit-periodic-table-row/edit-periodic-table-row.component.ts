@@ -59,14 +59,14 @@ export class EditPeriodicTableRowComponent implements OnInit {
   }
 
   public save(): void {
-    if (this.editForm().valid) {
-      const updatedElement = {
-        position: this.editForm().getRawValue().position,
-        name: this.editForm().value.name,
-        weight: this.editForm().value.weight,
-        symbol: this.editForm().value.symbol
-      };
-      this._dialogRef.close(updatedElement);
-    }
+    if (!this.editForm().valid) return;
+
+    const updatedElement = {
+      position: this.editForm().getRawValue().position,
+      name: this.editForm().value.name,
+      weight: this.editForm().value.weight,
+      symbol: this.editForm().value.symbol
+    };
+    this._dialogRef.close(updatedElement);
   }
 }
