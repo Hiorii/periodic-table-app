@@ -7,6 +7,7 @@ import { TableComponent } from '../../shared/components/table/table.component';
 import { TableColumn } from '../../core/models/table-column.model';
 import { TableService } from '../../shared/components/table/table.service';
 import { TableTitle } from '../../shared/components/table/models/table-title.model';
+import { TableActions } from '../../core/models/table-actions.model';
 
 @Component({
   selector: 'app-periodic-table',
@@ -20,6 +21,7 @@ export class PeriodicTableComponent implements OnInit {
   public periodicTableData: PeriodicElement[] = [];
   public tableColumns: TableColumn[] = [];
   public tableTitleData: TableTitle;
+  public tableActions: TableActions<PeriodicElement>[] = [];
   private dataService = inject(DataService);
   private destroyRef = inject(DestroyRef);
   private tableService = inject(TableService);
@@ -31,11 +33,10 @@ export class PeriodicTableComponent implements OnInit {
   private getDataAndInitializeTable(): void {
     this.dataService.data$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((data) => {
       this.periodicTableData = data;
-      this.periodicTableData = [];
       this.isDataLoaded.set(true);
       if (this.isDataLoaded()) {
         this.initializeTableTitle();
-        this.initializeTableColumns();
+        this.initializeTableActions();
       }
     });
   }
@@ -48,6 +49,16 @@ export class PeriodicTableComponent implements OnInit {
   }
 
   private initializeTableColumns(): void {
-    this.tableColumns = this.tableService.initializeTableColumns(this.periodicTableData);
+    this.tableColumns = this.tableService.initializeTableColumns(this.periodicTableData, this.tableActions);
+  }
+
+  private initializeTableActions(): void {
+    this.tableActions = [
+      {
+        name: 'Edit',
+        callback: (row) => {}
+      }
+    ];
+    this.initializeTableColumns();
   }
 }

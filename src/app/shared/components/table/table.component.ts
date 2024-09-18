@@ -6,6 +6,7 @@ import { TableColumn } from '../../../core/models/table-column.model';
 import { JsonPipe, TitleCasePipe } from '@angular/common';
 import { TableTitleComponent } from './table-title/table-title.component';
 import { TableNoDataComponent } from './table-no-data/table-no-data.component';
+import { TableActions } from '../../../core/models/table-actions.model';
 
 @Component({
   selector: 'app-table',
@@ -20,6 +21,7 @@ export class TableComponent<T> {
   tableTitleIconName = input<string>();
   dataSource = input.required<T[]>();
   columns = input.required<TableColumn[]>();
+  actions = input<TableActions<T>[]>([]);
   columnsToDisplay = computed(() => this.columns().map((column) => column.name));
   defaultTitle: string = 'Table';
 }
