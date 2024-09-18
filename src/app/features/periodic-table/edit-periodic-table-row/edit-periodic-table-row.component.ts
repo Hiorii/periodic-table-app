@@ -25,9 +25,13 @@ export class EditPeriodicTableRowComponent implements OnInit {
   public editForm: Signal<FormGroup<EditTableRowForm>> = signal(
     new FormGroup<EditTableRowForm>({
       position: new FormControl<number | null>({ value: null, disabled: true }, [Validators.required]),
-      name: new FormControl<string | null>(null, [Validators.required]),
-      weight: new FormControl<number | null>(null, [Validators.required]),
-      symbol: new FormControl<string | null>(null, [Validators.required])
+      name: new FormControl<string | null>(null, [Validators.required, Validators.maxLength(20)]),
+      weight: new FormControl<number | null>(null, [
+        Validators.required,
+        Validators.pattern('^[0-9]*\\.?[0-9]+$'),
+        Validators.maxLength(6)
+      ]),
+      symbol: new FormControl<string | null>(null, [Validators.required, Validators.maxLength(3)])
     })
   );
   public editFormControls = computed(() => Object.keys(this.editForm().controls));

@@ -5,11 +5,24 @@
       <mat-form-field appearance="fill">
         <mat-label>{{ form | titlecase }}</mat-label>
         <input matInput [formControlName]="form" [attr.aria-label]="form + '-label'" />
+        @if (editForm().controls[form].hasError("required") && editForm().controls[form].touched) {
+          <mat-error> {{ form | titlecase }} is required.</mat-error>
+        }
+        @if (form === "weight" && editForm().controls[form].hasError("pattern") && editForm().controls[form].touched) {
+          <mat-error>Weight must be a valid number.</mat-error>
+        }
+
+        @if (editForm().controls[form].hasError("maxlength") && editForm().controls[form].touched) {
+          <mat-error>
+            {{ form | titlecase }} exceeds maximum length of {{ editForm().controls[form].getError("maxlength").requiredLength }}
+            characters.
+          </mat-error>
+        }
       </mat-form-field>
     }
   </form>
   <div mat-dialog-actions>
     <button mat-fab (click)="cancel()" aria-label="Cancel the form">Cancel</button>
-    <button mat-fab color="primary" (click)="save()" aria-label="Save the form">Save</button>
+    <button mat-fab color="primary" (click)="save()" [disabled]="editForm().invalid" aria-label="Save the form">Save</button>
   </div>
 </div>

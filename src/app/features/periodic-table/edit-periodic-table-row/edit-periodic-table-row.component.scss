@@ -6,6 +6,10 @@
   form {
     @include flex(center, center, column);
     padding: 1rem 3rem 0;
+
+    mat-form-field {
+      padding-bottom: 1rem;
+    }
   }
 
   button {
