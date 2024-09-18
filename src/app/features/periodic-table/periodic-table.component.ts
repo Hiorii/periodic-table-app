@@ -11,6 +11,8 @@ import { TableActions } from '../../core/models/table-actions.model';
 import { EditPeriodicTableRowComponent } from './edit-periodic-table-row/edit-periodic-table-row.component';
 import { DialogService } from '../../shared/components/dialog/dialog.service';
 import { filter } from 'rxjs';
+import { PeriodicElementsEnum } from '../../core/enums/periodic-elements.enum';
+import { TABLE_COLUMN_WIDTHS, TABLE_TITLE_DATA } from './constants/periodic-table.constants';
 
 @Component({
   selector: 'app-periodic-table',
@@ -47,8 +49,8 @@ export class PeriodicTableComponent implements OnInit {
 
   private initializeTableTitle(): void {
     this.tableTitleData = {
-      title: 'Periodic Table',
-      icon: 'home'
+      title: TABLE_TITLE_DATA.title,
+      icon: TABLE_TITLE_DATA.icon
     };
   }
 
@@ -62,16 +64,16 @@ export class PeriodicTableComponent implements OnInit {
 
   private getColumnWidth(columnName: string): string {
     switch (columnName) {
-      case 'name':
-        return '35%';
-      case 'symbol':
-        return '10%';
-      case 'weight':
-        return '35%';
-      case 'position':
-        return '10%';
+      case PeriodicElementsEnum.name:
+        return TABLE_COLUMN_WIDTHS.name;
+      case PeriodicElementsEnum.symbol:
+        return TABLE_COLUMN_WIDTHS.symbol;
+      case PeriodicElementsEnum.weight:
+        return TABLE_COLUMN_WIDTHS.weight;
+      case PeriodicElementsEnum.position:
+        return TABLE_COLUMN_WIDTHS.position;
       case 'actions':
-        return '10%';
+        return TABLE_COLUMN_WIDTHS.actions;
       default:
         return 'auto';
     }

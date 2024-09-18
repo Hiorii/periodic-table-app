@@ -6,6 +6,7 @@ import { TitleCasePipe } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogRef } from '@angular/material/dialog';
 import { MatButton, MatFabButton } from '@angular/material/button';
 import { PeriodicElement } from '../../../core/models/periodic-element.model';
+import { EDIT_PERIODIC_MAX_LENGTH } from '../constants/periodic-table.constants';
 
 type EditTableRowForm = {
   position: FormControl<number | null>;
@@ -25,13 +26,13 @@ export class EditPeriodicTableRowComponent implements OnInit {
   public editForm: Signal<FormGroup<EditTableRowForm>> = signal(
     new FormGroup<EditTableRowForm>({
       position: new FormControl<number | null>({ value: null, disabled: true }, [Validators.required]),
-      name: new FormControl<string | null>(null, [Validators.required, Validators.maxLength(20)]),
+      name: new FormControl<string | null>(null, [Validators.required, Validators.maxLength(EDIT_PERIODIC_MAX_LENGTH.name)]),
       weight: new FormControl<number | null>(null, [
         Validators.required,
         Validators.pattern('^[0-9]*\\.?[0-9]+$'),
-        Validators.maxLength(6)
+        Validators.maxLength(EDIT_PERIODIC_MAX_LENGTH.weight)
       ]),
-      symbol: new FormControl<string | null>(null, [Validators.required, Validators.maxLength(3)])
+      symbol: new FormControl<string | null>(null, [Validators.required, Validators.maxLength(EDIT_PERIODIC_MAX_LENGTH.symbol)])
     })
   );
   public editFormControls = computed(() => Object.keys(this.editForm().controls));
