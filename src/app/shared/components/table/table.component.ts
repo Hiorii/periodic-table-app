@@ -1,4 +1,4 @@
-import { Component, computed, input, signal, ViewEncapsulation, WritableSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, signal, ViewEncapsulation, WritableSignal } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButton } from '@angular/material/button';
@@ -25,23 +25,22 @@ import { FilterComponent } from '../filter/filter.component';
   ],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TableComponent<T> {
-  tableTitle = input<string>();
-  tableTitleIconName = input<string>();
-  dataSource = input.required<T[]>();
-  columns = input.required<TableColumn[]>();
-  actions = input<TableActions<T>[]>([]);
-  isFiltered: WritableSignal<boolean> = signal(false);
-  filteredDataSource: WritableSignal<T[]> = signal([]);
-  displayedDataSource = computed(() => {
+  public tableTitle = input<string>();
+  public tableTitleIconName = input<string>();
+  public dataSource = input.required<T[]>();
+  public columns = input.required<TableColumn[]>();
+  public actions = input<TableActions<T>[]>([]);
+  public displayedDataSource = computed(() => {
     if (this.isFiltered() && this.filteredDataSource().length === 0) {
       return [];
     }
     return this.filteredDataSource().length ? this.filteredDataSource() : this.dataSource();
   });
-  columnsDataDisplay = computed(() =>
+  public columnsDataDisplay = computed(() =>
     this.columns().map((column) => {
       return {
         name: column.name,
@@ -49,10 +48,12 @@ export class TableComponent<T> {
       };
     })
   );
-  columnsNameToDisplay = computed(() => this.columns().map((column) => column.name));
-  defaultTitle: string = 'Table';
+  public columnsNameToDisplay = computed(() => this.columns().map((column) => column.name));
+  public defaultTitle: string = 'Table';
+  private isFiltered: WritableSignal<boolean> = signal(false);
+  private filteredDataSource: WritableSignal<T[]> = signal([]);
 
-  filterData(data: T[]) {
+  public filterData(data: T[]) {
     this.isFiltered.set(true);
     this.filteredDataSource.set(data);
   }

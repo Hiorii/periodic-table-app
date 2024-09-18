@@ -6,8 +6,8 @@ import { MatIconModule } from '@angular/material/icon';
   standalone: true,
   imports: [MatIconModule],
   template: `
-    <div class="container">
-      <mat-icon>sentiment_very_dissatisfied</mat-icon>
+    <div class="container" role="alert">
+      <mat-icon aria-hidden="true">sentiment_very_dissatisfied</mat-icon>
       <span>No data available</span>
     </div>
   `,

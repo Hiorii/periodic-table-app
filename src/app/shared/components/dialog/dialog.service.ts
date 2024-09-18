@@ -7,9 +7,9 @@ import { ComponentType } from '@angular/cdk/portal';
   providedIn: 'root'
 })
 export class DialogService {
-  matDialog = inject(MatDialog);
+  private matDialog = inject(MatDialog);
 
-  openDialog<T, D = DialogData<T>>(component: ComponentType<T>, data?: D) {
+  public openDialog<T, D = DialogData<T>>(component: ComponentType<T>, data?: D) {
     const dialogRef = this.matDialog.open<T, D>(component, { data });
 
     return dialogRef.afterClosed();

@@ -2,14 +2,14 @@
   <h1>{{ title() }}</h1>
   <form [formGroup]="editForm()">
     @for (form of editFormControls(); track form) {
-      <mat-form-field>
+      <mat-form-field appearance="fill">
         <mat-label>{{ form | titlecase }}</mat-label>
-        <input matInput [formControlName]="form" />
+        <input matInput [formControlName]="form" [attr.aria-label]="form + '-label'" />
       </mat-form-field>
     }
   </form>
   <div mat-dialog-actions>
-    <button mat-fab (click)="cancel()">Cancel</button>
-    <button mat-fab color="primary" (click)="save()">Save</button>
+    <button mat-fab (click)="cancel()" aria-label="Cancel the form">Cancel</button>
+    <button mat-fab color="primary" (click)="save()" aria-label="Save the form">Save</button>
   </div>
 </div>

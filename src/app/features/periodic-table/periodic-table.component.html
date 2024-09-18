@@ -8,7 +8,7 @@
     class="container"
   ></app-table>
 } @placeholder (minimum 1s) {
-  <mat-spinner class="container"></mat-spinner>
+  <mat-spinner class="container" aria-label="Loading data"></mat-spinner>
 } @loading (after 100ms; minimum 1s) {
-  <mat-spinner class="container"></mat-spinner>
+  <mat-spinner class="container" aria-label="Loading data"></mat-spinner>
 }

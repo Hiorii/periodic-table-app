@@ -22,7 +22,7 @@ type EditTableRowForm = {
   styleUrl: './edit-periodic-table-row.component.scss'
 })
 export class EditPeriodicTableRowComponent implements OnInit {
-  editForm: Signal<FormGroup<EditTableRowForm>> = signal(
+  public editForm: Signal<FormGroup<EditTableRowForm>> = signal(
     new FormGroup<EditTableRowForm>({
       position: new FormControl<number | null>({ value: null, disabled: true }, [Validators.required]),
       name: new FormControl<string | null>(null, [Validators.required]),
@@ -30,8 +30,8 @@ export class EditPeriodicTableRowComponent implements OnInit {
       symbol: new FormControl<string | null>(null, [Validators.required])
     })
   );
-  editFormControls = computed(() => Object.keys(this.editForm().controls));
-  title: WritableSignal<string | null> = signal('');
+  public editFormControls = computed(() => Object.keys(this.editForm().controls));
+  public title: WritableSignal<string | null> = signal('');
 
   constructor(
     private readonly _dialogRef: MatDialogRef<EditPeriodicTableRowComponent>,
@@ -50,11 +50,11 @@ export class EditPeriodicTableRowComponent implements OnInit {
     this.editForm().controls.symbol.setValue(this._data.data.symbol);
   }
 
-  cancel(): void {
+  public cancel(): void {
     this._dialogRef.close();
   }
 
-  save(): void {
+  public save(): void {
     if (this.editForm().valid) {
       const updatedElement = {
         position: this.editForm().getRawValue().position,
