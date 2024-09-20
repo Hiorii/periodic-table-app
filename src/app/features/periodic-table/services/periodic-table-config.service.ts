@@ -17,7 +17,11 @@ export class PeriodicTableConfigService {
     ];
   }
 
-  public initializeTableColumns(data: PeriodicElement[], actions: TableActions<PeriodicElement>[]): TableColumn[] {
+  public initializeTableColumns(data: PeriodicElement[], actions: TableActions<PeriodicElement>[] = []): TableColumn[] {
+    if (!data.length) {
+      return [];
+    }
+
     return Object.keys(data[0])
       .map((key) => ({
         name: key.toLowerCase(),
