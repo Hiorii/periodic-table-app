@@ -2,15 +2,15 @@
   <app-table
     [tableTitle]="tableTitleData.title"
     [tableTitleIconName]="tableTitleData.icon"
-    [columns]="tableColumns"
+    [columns]="tableColumns()"
     [dataSource]="displayedPeriodicTableData()"
-    [actions]="tableActions"
+    [actions]="tableActions()"
     class="container"
   >
     <app-filter
       app-table-filter
       [dataSource]="periodicTableData()"
-      (filteredData)="filterData($event)"
+      (filteredData)="vm.filterData($event)"
       aria-label="Filter table data"
     ></app-filter>
   </app-table>
