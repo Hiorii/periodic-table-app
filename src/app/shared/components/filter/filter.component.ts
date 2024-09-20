@@ -19,6 +19,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatIcon } from '@angular/material/icon';
+import { FilterData } from '../../../core/models/filter-data.model';
 
 type FilterForm = {
   filter: FormControl<string | null>;
@@ -35,7 +36,7 @@ type FilterForm = {
 export class FilterComponent<T> implements OnInit {
   public dataSource = input.required<T[]>();
   public isSearching: WritableSignal<boolean> = signal(false);
-  public filteredData = output<T[]>();
+  public filteredData = output<FilterData<T>>();
   public filterForm: Signal<FormGroup<FilterForm>> = signal(
     new FormGroup<FilterForm>({
       filter: new FormControl<string | null>(null)
@@ -56,12 +57,14 @@ export class FilterComponent<T> implements OnInit {
         debounceTime(2000),
         distinctUntilChanged()
       )
-      .subscribe((value) => {
-        if (value) {
-          this.matTableDataSource().filter = value.trim().toLowerCase();
-          this.filteredData.emit(this.matTableDataSource().filteredData);
+      .subscribe((filterValue: string | null) => {
+        const trimmedFilterValue = filterValue ? filterValue.trim().toLowerCase() : '';
+
+        if (!trimmedFilterValue) {
+          this.filteredData.emit({ data: this.dataSource(), filteredValue: '' });
         } else {
-          this.filteredData.emit(this.dataSource());
+          this.matTableDataSource().filter = trimmedFilterValue;
+          this.filteredData.emit({ data: this.matTableDataSource().filteredData, filteredValue: trimmedFilterValue });
         }
         this.isSearching.set(false);
       });

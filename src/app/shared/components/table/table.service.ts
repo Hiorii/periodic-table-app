@@ -6,7 +6,7 @@ import { TableActions } from '../../../core/models/table-actions.model';
   providedIn: 'root'
 })
 export class TableService<T extends Object> {
-  public initializeTableColumns(tableData: T[], actions: TableActions<T>[]): TableColumn[] {
+  public initializeTableColumns(tableData: T[], actions: TableActions<T>[] = []): TableColumn[] {
     if (!tableData.length) {
       return [];
     }

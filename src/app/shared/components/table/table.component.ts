@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input, signal, ViewEncapsulation, WritableSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButton } from '@angular/material/button';
@@ -34,12 +34,6 @@ export class TableComponent<T> {
   public dataSource = input.required<T[]>();
   public columns = input.required<TableColumn[]>();
   public actions = input<TableActions<T>[]>([]);
-  public displayedDataSource = computed(() => {
-    if (this.isFiltered() && this.filteredDataSource().length === 0) {
-      return [];
-    }
-    return this.filteredDataSource().length ? this.filteredDataSource() : this.dataSource();
-  });
   public columnsDataDisplay = computed(() =>
     this.columns().map((column) => {
       return {
@@ -50,11 +44,4 @@ export class TableComponent<T> {
   );
   public columnsNameToDisplay = computed(() => this.columns().map((column) => column.name));
   public defaultTitle: string = 'Table';
-  private isFiltered: WritableSignal<boolean> = signal(false);
-  private filteredDataSource: WritableSignal<T[]> = signal([]);
-
-  public filterData(data: T[]) {
-    this.isFiltered.set(true);
-    this.filteredDataSource.set(data);
-  }
 }

@@ -101,11 +101,11 @@
             "production": {
               "buildTarget": "periodic-table-app:build:production"
             },
-            "development": {
-              "buildTarget": "periodic-table-app:build:development"
+            "local": {
+              "buildTarget": "periodic-table-app:build:local"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "local"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n"
