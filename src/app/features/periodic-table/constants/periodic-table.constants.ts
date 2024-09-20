@@ -16,3 +16,9 @@ export const TABLE_TITLE_DATA = {
   title: 'Periodic Table',
   icon: 'home'
 };
+
+export const TOAST_MESSAGES_DATA = {
+  message: 'Element updated',
+  close: 'Close',
+  closeDuration: 2000
+};

@@ -10,6 +10,8 @@ import { EditPeriodicTableRowComponent } from './edit-periodic-table-row/edit-pe
 import { filter } from 'rxjs';
 import { FilterData } from '../../core/models/filter-data.model';
 import { filterPeriodicData } from './utils/filter.utils';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { TOAST_MESSAGES_DATA } from './constants/periodic-table.constants';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +26,7 @@ export class PeriodicTableViewModel {
   private tableConfigService = inject(PeriodicTableConfigService);
   private dialogService = inject(DialogService);
   private destroyRef = inject(DestroyRef);
+  private _snackBar = inject(MatSnackBar);
 
   public init(): void {
     this.dataService.data$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((data) => {
@@ -62,6 +65,8 @@ export class PeriodicTableViewModel {
         if (this.currentFilterValue()) {
           this.filterData({ data: updatedData, filteredValue: this.currentFilterValue() });
         }
+
+        this._snackBar.open(TOAST_MESSAGES_DATA.message, TOAST_MESSAGES_DATA.close, { duration: TOAST_MESSAGES_DATA.closeDuration });
       });
   }
 }
