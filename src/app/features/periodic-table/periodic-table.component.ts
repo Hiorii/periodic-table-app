@@ -5,15 +5,14 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { TableComponent } from '../../shared/components/table/table.component';
 import { TableColumn } from '../../core/models/table-column.model';
-import { TableService } from '../../shared/components/table/table.service';
-import { TableTitle } from '../../shared/components/table/models/table-title.model';
 import { TableActions } from '../../core/models/table-actions.model';
 import { EditPeriodicTableRowComponent } from './edit-periodic-table-row/edit-periodic-table-row.component';
 import { DialogService } from '../../shared/components/dialog/dialog.service';
 import { filter } from 'rxjs';
-import { TABLE_COLUMN_WIDTHS, TABLE_TITLE_DATA } from './constants/periodic-table.constants';
 import { FilterComponent } from '../../shared/components/filter/filter.component';
 import { FilterData } from '../../core/models/filter-data.model';
+import { PeriodicTableConfigService } from './services/periodic-table-config.service';
+import { TABLE_TITLE_DATA } from './constants/periodic-table.constants';
 
 @Component({
   selector: 'app-periodic-table',
@@ -25,29 +24,24 @@ import { FilterData } from '../../core/models/filter-data.model';
 export class PeriodicTableComponent implements OnInit {
   public periodicTableData: WritableSignal<PeriodicElement[]> = signal([]);
   public tableColumns: TableColumn[] = [];
-  public tableTitleData: TableTitle = TABLE_TITLE_DATA;
   public tableActions: TableActions<PeriodicElement>[] = [];
-  public currentFilterValue: WritableSignal<string> = signal('');
-
-  public displayedPeriodicTableData = computed(() => {
-    if (!this.periodicTableData().length) {
-      return [];
-    }
-    const filterValue = this.currentFilterValue().toLowerCase().trim();
-    if (filterValue) {
-      return this.periodicTableData().filter((el) =>
-        Object.values(el).some((value) => value.toString().toLowerCase().includes(filterValue))
-      );
-    }
-    return this.periodicTableData();
-  });
-
+  public tableTitleData = TABLE_TITLE_DATA;
+  public displayedPeriodicTableData = computed(() => this.getFilteredPeriodicTableData());
+  private currentFilterValue: WritableSignal<string> = signal('');
   private dataService = inject(DataService);
   private destroyRef = inject(DestroyRef);
-  private tableService = inject(TableService);
+  private tableConfigService = inject(PeriodicTableConfigService);
   private dialogService = inject(DialogService);
 
   ngOnInit(): void {
+    this.getDataAndInitializeTable();
+  }
+
+  public filterData(filterData: FilterData<PeriodicElement>): void {
+    this.currentFilterValue.set(filterData.filteredValue);
+  }
+
+  private getDataAndInitializeTable(): void {
     this.dataService.data$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((data) => {
       this.periodicTableData.set(data);
       this.initializeTableActions();
@@ -55,28 +49,25 @@ export class PeriodicTableComponent implements OnInit {
     });
   }
 
-  public filterData(filterData: FilterData<PeriodicElement>): void {
-    this.currentFilterValue.set(filterData.filteredValue);
-  }
-
   private initializeTableActions(): void {
-    this.tableActions = [
-      {
-        name: 'Edit',
-        callback: (row: PeriodicElement) => this.openEditDialog(row)
-      }
-    ];
+    this.tableActions = this.tableConfigService.initializeTableActions(this.openEditDialog.bind(this));
   }
 
   private initializeTableColumns(): void {
-    this.tableColumns = this.tableService.initializeTableColumns(this.periodicTableData(), this.tableActions).map((col) => ({
-      ...col,
-      width: this.getColumnWidth(col.name)
-    }));
+    this.tableColumns = this.tableConfigService.initializeTableColumns(this.periodicTableData(), this.tableActions);
   }
 
-  private getColumnWidth(columnName: string): string {
-    return TABLE_COLUMN_WIDTHS[columnName as keyof typeof TABLE_COLUMN_WIDTHS] || 'auto';
+  private getFilteredPeriodicTableData(): PeriodicElement[] {
+    const data = this.periodicTableData();
+    if (!data.length) {
+      return [];
+    }
+
+    const filterValue = this.currentFilterValue().toLowerCase().trim();
+    if (filterValue) {
+      return data.filter((el) => Object.values(el).some((value) => value.toString().toLowerCase().includes(filterValue)));
+    }
+    return data;
   }
 
   private openEditDialog(row: PeriodicElement): void {
